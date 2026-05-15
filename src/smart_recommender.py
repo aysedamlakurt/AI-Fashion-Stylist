@@ -7,7 +7,7 @@ import google.generativeai as genai # type: ignore
 print("🚀 RAG Tabanlı Akıllı Kombin Motoru Başlatılıyor...")
 
 # 1. Gemini Yapay Zeka Kurulumu (KENDİ API ANAHTARINI BURAYA YAZ)
-GEMINI_API_KEY = "AIzaSyDEIGMKU2wkL1gZ3_2DwnAPXglGMbwPUAg"
+GEMINI_API_KEY = ""
 genai.configure(api_key=GEMINI_API_KEY)
 llm_model = genai.GenerativeModel('gemini-2.5-flash')
 
