@@ -3,3 +3,4 @@ models.nosync/
 __pycache__/
 .DS_Store
 models/
+.env

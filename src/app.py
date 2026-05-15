@@ -8,6 +8,17 @@ import os
 import sys
 
 sys.path.insert(0, os.path.dirname(__file__))
+
+# .env dosyasını yükle (python-dotenv olmadan)
+_env_path = os.path.join(os.path.dirname(__file__), '..', '.env')
+if os.path.exists(_env_path):
+    with open(_env_path) as _f:
+        for _line in _f:
+            _line = _line.strip()
+            if _line and not _line.startswith('#') and '=' in _line:
+                _k, _v = _line.split('=', 1)
+                os.environ.setdefault(_k.strip(), _v.strip())
+
 from database import (
     init_db, create_user, verify_user, user_exists,
     save_item, get_user_items, delete_item, save_uploaded_image
@@ -46,7 +57,10 @@ st.markdown("""
 init_db()
 
 # --- 3. YAPAY ZEKA KURULUMU ---
-GEMINI_API_KEY = "AIzaSyAXDbbGjPw7yUwZXH_dkLAee8UnzjnxKv4"
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
+if not GEMINI_API_KEY:
+    st.error("GEMINI_API_KEY ortam değişkeni ayarlanmamış. Lütfen .env dosyası oluşturun veya ortam değişkenini tanımlayın.")
+    st.stop()
 genai.configure(api_key=GEMINI_API_KEY, transport="rest")
 
 BASE_SISTEM_KIMLIGI = """Sen enerjik, havalı ve çok tatlı bir moda danışmanısın. Kullanıcıyla Türkçe sohbet et.
